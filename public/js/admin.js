@@ -110,7 +110,7 @@ const VIEWS = {
       ? `<p>✓ إنت شغال محلياً: كل تعديل وصورة بتتحفظ مباشرة في فولدر المشروع (<code>public/content.json</code> و<code>public/uploads</code>).<br>عشان تنشر: ارفع فولدر المشروع كله على Vercel.</p>`
       : `<p>اضغط <b>🚀 نشر الموقع</b> (فوق في القائمة) وتعديلاتك بتظهر للزوار خلال دقيقة.</p>`) +
     (LIVE ? '' : card('إعداد النشر (مرة واحدة)', (() => { const g = GH() || {}; return `<div class="f"><label>الريبو على GitHub</label><input id="ghr" dir="ltr" value="${esc(g.repo || 'saskkeahmed-afk/motakamel')}"></div><div class="f"><label>الفرع</label><input id="ghb" dir="ltr" value="${esc(g.branch || 'main')}"></div><div class="f"><label>مفتاح النشر (Token)</label><input id="ght" type="password" dir="ltr" placeholder="github_pat_…" value="${esc(g.token || '')}"></div><button class="btn" id="ghsave">حفظ الإعداد</button> ${g.token ? '<span style="color:#4ade80">✓ جاهز</span>' : ''}`; })())) +
-    card('نسخة احتياطية', `<button class="btn" id="imp">📥 استيراد content.json</button> <button class="btn" id="bak">💾 تنزيل نسخة</button>`) +
+    card('نسخة احتياطية', `<button class="btn" id="imp">📥 استيراد ملف</button><input type="file" id="impf" accept=".json" hidden> <button class="btn" id="bak">💾 تنزيل نسخة</button>`) +
     (LIVE ? '' : card('', '<button class="btn dn" id="rst">إعادة ضبط المسودة</button>'))
 };
 function cell(it, P, arrPath, i) {
@@ -209,7 +209,7 @@ function bind() {
     else if (t.id === 'bak') dl(new Blob([JSON.stringify(D, null, 2)], { type: 'application/json' }), 'content-backup.json');
     else if (t.id === 'rst') { if (!confirm('تمسح كل التعديلات المحفوظة على الجهاز ده؟')) return; await kvSet('content', null); for (const [n] of await fGetAll()) await fDel(n); location.reload(); }
   };
-  m.onchange = async e => { if (e.target.id === 'impf' && e.target.files[0]) { try { const j = JSON.parse(await e.target.files[0].text()); if (!j.brand || !j.hero || !j.works) throw 0; D = j; await save(); toast('تم الاستيراد ✓'); render(); } catch { toast('الملف مش content.json صالح'); } e.target.value = ''; return; } if (e.target.id === 'fi') { handleFiles([...e.target.files], tab === 'works' ? 'works' : 'logos'); e.target.value = ''; } };
+  m.onchange = async e => { if (e.target.id === 'impf' && e.target.files[0]) { try { const j = JSON.parse(await e.target.files[0].text()); if (j.brand && j.hero && j.works) D = j; else if (j.team || j.testimonials) { if (j.team) { const old = (D.team && D.team.members) || [], ms = (j.team.members || []).map(m => { const o = old.find(x => x.id === m.id) || {}; return { ...o, ...m, photo: m.photo || o.photo || '' }; }); D.team = { ...D.team, ...j.team, members: ms }; } if (j.testimonials) D.testimonials = { ...D.testimonials, ...j.testimonials }; } else throw 0; await save(); toast('تم الاستيراد ✓'); render(); } catch { toast('الملف مش content.json صالح'); } e.target.value = ''; return; } if (e.target.id === 'fi') { handleFiles([...e.target.files], tab === 'works' ? 'works' : 'logos'); e.target.value = ''; } };
   m.ondragover = e => { const d = e.target.closest('#drop'); if (d) { e.preventDefault(); d.classList.add('over'); } };
   m.ondragleave = e => { const d = e.target.closest('#drop'); if (d) d.classList.remove('over'); };
   m.ondrop = e => { const d = e.target.closest('#drop'); if (d) { e.preventDefault(); d.classList.remove('over'); handleFiles([...e.dataTransfer.files], tab === 'works' ? 'works' : 'logos'); } };
