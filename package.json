@@ -1,0 +1,11 @@
+{
+  "name": "motakamel-agency",
+  "private": true,
+  "version": "3.0.0",
+  "scripts": {
+    "dev": "node serve.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

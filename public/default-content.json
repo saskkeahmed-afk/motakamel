@@ -1,0 +1,725 @@
+{
+ "brand": {
+  "name": "MOTAKAMEL",
+  "tag": "AGENCY",
+  "logo": "assets/logo-mark.png",
+  "accent": "#2563eb",
+  "accent2": "#22d3ee"
+ },
+ "seo": {
+  "title": {
+   "en": "MOTAKAMEL Agency — Video Editing, Motion, Branding & Digital Marketing",
+   "ar": "متكامل أيجنسي — مونتاج فيديو، موشن جرافيك، هوية بصرية وتسويق رقمي"
+  },
+  "description": {
+   "en": "A creative and digital marketing agency: video editing, motion graphics, branding, social media and web — everything your brand needs to grow.",
+   "ar": "وكالة إبداع وتسويق رقمي: مونتاج فيديو، موشن جرافيك، هوية بصرية، سوشيال ميديا ومواقع — كل اللي براندك محتاجه عشان يكبر."
+  },
+  "ogImage": "assets/og-image.png"
+ },
+ "contact": {
+  "email": "",
+  "phone": "",
+  "whatsapp": "",
+  "address": {
+   "en": "",
+   "ar": ""
+  },
+  "socials": {
+   "instagram": "",
+   "facebook": "",
+   "tiktok": "",
+   "youtube": "",
+   "linkedin": "",
+   "behance": "",
+   "x": ""
+  }
+ },
+ "hero": {
+  "badge": {
+   "en": "Now booking new projects",
+   "ar": "بنستقبل مشاريع جديدة"
+  },
+  "title1": {
+   "en": "We turn ideas into",
+   "ar": "بنحوّل أفكارك"
+  },
+  "title2": {
+   "en": "content that moves.",
+   "ar": "لمحتوى بيتحرّك."
+  },
+  "sub": {
+   "en": "Video editing, motion graphics, branding, social media and web — everything your brand needs to grow, under one roof.",
+   "ar": "مونتاج فيديو، موشن جرافيك، هوية بصرية، سوشيال ميديا ومواقع — كل اللي براندك محتاجه عشان يكبر في مكان واحد."
+  },
+  "cta1": {
+   "en": "Start your project",
+   "ar": "ابدأ مشروعك"
+  },
+  "cta2": {
+   "en": "See our work",
+   "ar": "شوف أعمالنا"
+  }
+ },
+ "clients": {
+  "title": {
+   "en": "Trusted by growing brands",
+   "ar": "براندات بتكبر معانا"
+  },
+  "logos": [
+   {
+    "id": "c0",
+    "name": "Client 1",
+    "src": "assets/samples/client-1.svg"
+   },
+   {
+    "id": "c1",
+    "name": "Client 2",
+    "src": "assets/samples/client-2.svg"
+   },
+   {
+    "id": "c2",
+    "name": "Client 3",
+    "src": "assets/samples/client-3.svg"
+   },
+   {
+    "id": "c3",
+    "name": "Client 4",
+    "src": "assets/samples/client-4.svg"
+   },
+   {
+    "id": "c4",
+    "name": "Client 5",
+    "src": "assets/samples/client-5.svg"
+   },
+   {
+    "id": "c5",
+    "name": "Client 6",
+    "src": "assets/samples/client-6.svg"
+   },
+   {
+    "id": "c6",
+    "name": "Client 7",
+    "src": "assets/samples/client-7.svg"
+   },
+   {
+    "id": "c7",
+    "name": "Client 8",
+    "src": "assets/samples/client-8.svg"
+   }
+  ]
+ },
+ "services": {
+  "title": {
+   "en": "Everything your brand needs",
+   "ar": "كل اللي براندك محتاجه"
+  },
+  "sub": {
+   "en": "One team, every format — from a 15-second reel to a full brand system.",
+   "ar": "فريق واحد وكل الفورمات — من ريل 15 ثانية لحد هوية متكاملة."
+  },
+  "items": [
+   {
+    "id": "s1",
+    "icon": "video",
+    "featured": true,
+    "title": {
+     "en": "Video Editing",
+     "ar": "مونتاج الفيديو"
+    },
+    "desc": {
+     "en": "Reels, ads, YouTube and long-form — cinematic pacing, color grading, sound design and subtitles in any language.",
+     "ar": "ريلز وإعلانات ويوتيوب وفيديوهات طويلة — إيقاع سينمائي، تصحيح ألوان، تصميم صوت وترجمة بأي لغة."
+    }
+   },
+   {
+    "id": "s2",
+    "icon": "motion",
+    "title": {
+     "en": "Motion Graphics",
+     "ar": "موشن جرافيك"
+    },
+    "desc": {
+     "en": "Animated logos, explainers and UI motion that make your message impossible to ignore.",
+     "ar": "لوجو متحرك وفيديوهات شرح وحركة واجهات تخلّي رسالتك مستحيل تتتجاهل."
+    }
+   },
+   {
+    "id": "s3",
+    "icon": "palette",
+    "title": {
+     "en": "Brand Identity & Design",
+     "ar": "الهوية البصرية والتصميم"
+    },
+    "desc": {
+     "en": "Logos, visual systems, packaging and print — a look people remember.",
+     "ar": "لوجو، نظام بصري، تغليف ومطبوعات — شكل الناس بتفتكره."
+    }
+   },
+   {
+    "id": "s4",
+    "icon": "social",
+    "title": {
+     "en": "Social Media Management",
+     "ar": "إدارة السوشيال ميديا"
+    },
+    "desc": {
+     "en": "Content calendars, community management and growth on every platform.",
+     "ar": "خطة محتوى، إدارة مجتمع ونمو على كل المنصات."
+    }
+   },
+   {
+    "id": "s5",
+    "icon": "ads",
+    "title": {
+     "en": "Performance Marketing",
+     "ar": "الإعلانات الممولة"
+    },
+    "desc": {
+     "en": "Meta, TikTok, Google and YouTube ads built around real business results.",
+     "ar": "إعلانات ميتا وتيك توك وجوجل ويوتيوب مبنية على نتائج حقيقية."
+    }
+   },
+   {
+    "id": "s6",
+    "icon": "code",
+    "title": {
+     "en": "Web Design & Development",
+     "ar": "تصميم وتطوير المواقع"
+    },
+    "desc": {
+     "en": "Fast, beautiful, SEO-ready websites and landing pages that convert.",
+     "ar": "مواقع وصفحات هبوط سريعة وشيك ومجهزة للـ SEO وبتحوّل الزوار لعملاء."
+    }
+   },
+   {
+    "id": "s7",
+    "icon": "pen",
+    "title": {
+     "en": "Content & Scriptwriting",
+     "ar": "صناعة المحتوى وكتابة السيناريو"
+    },
+    "desc": {
+     "en": "Hooks, scripts and stories written to be watched, shared and remembered.",
+     "ar": "أفكار وسيناريوهات وقصص مكتوبة عشان تتشاف وتتشير وتتفتكر."
+    }
+   },
+   {
+    "id": "s8",
+    "icon": "camera",
+    "title": {
+     "en": "Photography & Production",
+     "ar": "التصوير والإنتاج"
+    },
+    "desc": {
+     "en": "Product, brand and commercial shoots with full production support.",
+     "ar": "تصوير منتجات وبراندات وإعلانات بدعم إنتاج كامل."
+    }
+   }
+  ]
+ },
+ "works": {
+  "title": {
+   "en": "Selected work",
+   "ar": "أعمال مختارة"
+  },
+  "sub": {
+   "en": "Made for the scroll. Tap any reel to watch.",
+   "ar": "متصممة للسكرول. اضغط على أي ريل وشاهده."
+  },
+  "categories": [
+   {
+    "id": "video",
+    "name": {
+     "en": "Video Editing",
+     "ar": "مونتاج"
+    },
+    "items": [
+     {
+      "id": "w1",
+      "type": "image",
+      "src": "assets/samples/poster-1.svg",
+      "title": {
+       "en": "Reel sample 1",
+       "ar": "ريل تجريبي 1"
+      }
+     },
+     {
+      "id": "w2",
+      "type": "image",
+      "src": "assets/samples/poster-2.svg",
+      "title": {
+       "en": "Reel sample 2",
+       "ar": "ريل تجريبي 2"
+      }
+     },
+     {
+      "id": "w3",
+      "type": "image",
+      "src": "assets/samples/poster-3.svg",
+      "title": {
+       "en": "Reel sample 3",
+       "ar": "ريل تجريبي 3"
+      }
+     },
+     {
+      "id": "w4",
+      "type": "image",
+      "src": "assets/samples/poster-4.svg",
+      "title": {
+       "en": "Reel sample 4",
+       "ar": "ريل تجريبي 4"
+      }
+     },
+     {
+      "id": "w5",
+      "type": "image",
+      "src": "assets/samples/poster-5.svg",
+      "title": {
+       "en": "Reel sample 5",
+       "ar": "ريل تجريبي 5"
+      }
+     }
+    ]
+   },
+   {
+    "id": "motion",
+    "name": {
+     "en": "Motion Graphics",
+     "ar": "موشن جرافيك"
+    },
+    "items": [
+     {
+      "id": "w6",
+      "type": "image",
+      "src": "assets/samples/poster-6.svg",
+      "title": {
+       "en": "Motion sample 1",
+       "ar": "موشن تجريبي 1"
+      }
+     },
+     {
+      "id": "w7",
+      "type": "image",
+      "src": "assets/samples/poster-7.svg",
+      "title": {
+       "en": "Motion sample 2",
+       "ar": "موشن تجريبي 2"
+      }
+     },
+     {
+      "id": "w8",
+      "type": "image",
+      "src": "assets/samples/poster-8.svg",
+      "title": {
+       "en": "Motion sample 3",
+       "ar": "موشن تجريبي 3"
+      }
+     },
+     {
+      "id": "w9",
+      "type": "image",
+      "src": "assets/samples/poster-9.svg",
+      "title": {
+       "en": "Motion sample 4",
+       "ar": "موشن تجريبي 4"
+      }
+     }
+    ]
+   },
+   {
+    "id": "design",
+    "name": {
+     "en": "Branding & Design",
+     "ar": "هوية وتصميم"
+    },
+    "items": [
+     {
+      "id": "w10",
+      "type": "image",
+      "src": "assets/samples/poster-10.svg",
+      "title": {
+       "en": "Design sample 1",
+       "ar": "تصميم تجريبي 1"
+      }
+     },
+     {
+      "id": "w11",
+      "type": "image",
+      "src": "assets/samples/poster-3.svg",
+      "title": {
+       "en": "Design sample 2",
+       "ar": "تصميم تجريبي 2"
+      }
+     },
+     {
+      "id": "w12",
+      "type": "image",
+      "src": "assets/samples/poster-7.svg",
+      "title": {
+       "en": "Design sample 3",
+       "ar": "تصميم تجريبي 3"
+      }
+     },
+     {
+      "id": "w13",
+      "type": "image",
+      "src": "assets/samples/poster-1.svg",
+      "title": {
+       "en": "Design sample 4",
+       "ar": "تصميم تجريبي 4"
+      }
+     }
+    ]
+   },
+   {
+    "id": "social",
+    "name": {
+     "en": "Social Media",
+     "ar": "سوشيال ميديا"
+    },
+    "items": [
+     {
+      "id": "w14",
+      "type": "image",
+      "src": "assets/samples/poster-4.svg",
+      "title": {
+       "en": "Social sample 1",
+       "ar": "سوشيال تجريبي 1"
+      }
+     },
+     {
+      "id": "w15",
+      "type": "image",
+      "src": "assets/samples/poster-9.svg",
+      "title": {
+       "en": "Social sample 2",
+       "ar": "سوشيال تجريبي 2"
+      }
+     },
+     {
+      "id": "w16",
+      "type": "image",
+      "src": "assets/samples/poster-2.svg",
+      "title": {
+       "en": "Social sample 3",
+       "ar": "سوشيال تجريبي 3"
+      }
+     },
+     {
+      "id": "w17",
+      "type": "image",
+      "src": "assets/samples/poster-6.svg",
+      "title": {
+       "en": "Social sample 4",
+       "ar": "سوشيال تجريبي 4"
+      }
+     }
+    ]
+   }
+  ]
+ },
+ "process": {
+  "title": {
+   "en": "How we work",
+   "ar": "بنشتغل إزاي"
+  },
+  "sub": {
+   "en": "A simple process that keeps things fast and clear.",
+   "ar": "خطوات بسيطة بتخلّي الشغل سريع وواضح."
+  },
+  "items": [
+   {
+    "icon": "search",
+    "title": {
+     "en": "Discover",
+     "ar": "نفهمك"
+    },
+    "desc": {
+     "en": "We learn your brand, audience and goals before we touch a single frame.",
+     "ar": "بنفهم براندك وجمهورك وأهدافك قبل ما نبدأ أي شغل."
+    }
+   },
+   {
+    "icon": "compass",
+    "title": {
+     "en": "Plan",
+     "ar": "نخطّط"
+    },
+    "desc": {
+     "en": "Strategy, concepts and a clear schedule you approve up front.",
+     "ar": "استراتيجية وأفكار وجدول واضح بتوافق عليه من الأول."
+    }
+   },
+   {
+    "icon": "wand",
+    "title": {
+     "en": "Create",
+     "ar": "نبدع"
+    },
+    "desc": {
+     "en": "Our specialists produce, edit and polish — you review at every milestone.",
+     "ar": "متخصصينا بينفذوا ويظبطوا — وإنت بتراجع في كل مرحلة."
+    }
+   },
+   {
+    "icon": "rocket",
+    "title": {
+     "en": "Launch & grow",
+     "ar": "نطلق وننمّي"
+    },
+    "desc": {
+     "en": "We deliver, publish and keep optimizing based on real results.",
+     "ar": "بنسلّم وننشر ونفضل نحسّن بناءً على النتائج."
+    }
+   }
+  ]
+ },
+ "stats": {
+  "items": [
+   {
+    "value": 350,
+    "suffix": "+",
+    "label": {
+     "en": "Projects delivered",
+     "ar": "مشروع تم تسليمه"
+    }
+   },
+   {
+    "value": 120,
+    "suffix": "+",
+    "label": {
+     "en": "Brands served",
+     "ar": "براند اشتغلنا معاه"
+    }
+   },
+   {
+    "value": 25,
+    "suffix": "+",
+    "label": {
+     "en": "Creative specialists",
+     "ar": "متخصص مبدع"
+    }
+   },
+   {
+    "value": 98,
+    "suffix": "%",
+    "label": {
+     "en": "Client satisfaction",
+     "ar": "رضا العملاء"
+    }
+   }
+  ]
+ },
+ "team": {
+  "title": {
+   "en": "The people behind the work",
+   "ar": "الناس اللي ورا الشغل"
+  },
+  "sub": {
+   "en": "A team of editors, designers, strategists and developers who love what they do.",
+   "ar": "فريق من المونتيرز والمصممين والاستراتيجيين والمطورين بيحبوا اللي بيعملوه."
+  },
+  "members": [
+   {
+    "id": "m1",
+    "name": {
+     "en": "Full Name",
+     "ar": "الاسم بالكامل"
+    },
+    "role": {
+     "en": "Creative Director",
+     "ar": "المدير الإبداعي"
+    },
+    "dept": "management",
+    "photo": "assets/samples/team-1.svg",
+    "bio": {
+     "en": "Leads the creative vision across every project.",
+     "ar": "بيقود الرؤية الإبداعية في كل مشروع."
+    },
+    "links": {
+     "linkedin": "",
+     "instagram": ""
+    }
+   },
+   {
+    "id": "m2",
+    "name": {
+     "en": "Full Name",
+     "ar": "الاسم بالكامل"
+    },
+    "role": {
+     "en": "Lead Video Editor",
+     "ar": "رئيس قسم المونتاج"
+    },
+    "dept": "video",
+    "photo": "assets/samples/team-2.svg",
+    "bio": {
+     "en": "Turns raw footage into stories people finish watching.",
+     "ar": "بيحوّل اللقطات الخام لقصص الناس بتكمّلها لآخرها."
+    },
+    "links": {
+     "linkedin": "",
+     "instagram": ""
+    }
+   },
+   {
+    "id": "m3",
+    "name": {
+     "en": "Full Name",
+     "ar": "الاسم بالكامل"
+    },
+    "role": {
+     "en": "Motion Designer",
+     "ar": "مصمم موشن"
+    },
+    "dept": "design",
+    "photo": "assets/samples/team-3.svg",
+    "bio": {
+     "en": "Brings brands to life with motion.",
+     "ar": "بيدّي الحياة للبراندات بالحركة."
+    },
+    "links": {
+     "linkedin": "",
+     "instagram": ""
+    }
+   },
+   {
+    "id": "m4",
+    "name": {
+     "en": "Full Name",
+     "ar": "الاسم بالكامل"
+    },
+    "role": {
+     "en": "Social Media Manager",
+     "ar": "مدير السوشيال ميديا"
+    },
+    "dept": "marketing",
+    "photo": "assets/samples/team-4.svg",
+    "bio": {
+     "en": "Builds communities and growth strategies.",
+     "ar": "بيبني مجتمعات واستراتيجيات نمو."
+    },
+    "links": {
+     "linkedin": "",
+     "instagram": ""
+    }
+   }
+  ]
+ },
+ "testimonials": {
+  "title": {
+   "en": "What clients say",
+   "ar": "العملاء بيقولوا إيه"
+  },
+  "items": [
+   {
+    "id": "t1",
+    "name": {
+     "en": "Client name",
+     "ar": "اسم العميل"
+    },
+    "role": {
+     "en": "Company · Role",
+     "ar": "الشركة · المنصب"
+    },
+    "text": {
+     "en": "Write your client review here — replace this sample text from the admin panel.",
+     "ar": "اكتب هنا رأي العميل — استبدل النص التجريبي ده من لوحة التحكم."
+    }
+   },
+   {
+    "id": "t2",
+    "name": {
+     "en": "Client name",
+     "ar": "اسم العميل"
+    },
+    "role": {
+     "en": "Company · Role",
+     "ar": "الشركة · المنصب"
+    },
+    "text": {
+     "en": "Write your client review here — replace this sample text from the admin panel.",
+     "ar": "اكتب هنا رأي العميل — استبدل النص التجريبي ده من لوحة التحكم."
+    }
+   },
+   {
+    "id": "t3",
+    "name": {
+     "en": "Client name",
+     "ar": "اسم العميل"
+    },
+    "role": {
+     "en": "Company · Role",
+     "ar": "الشركة · المنصب"
+    },
+    "text": {
+     "en": "Write your client review here — replace this sample text from the admin panel.",
+     "ar": "اكتب هنا رأي العميل — استبدل النص التجريبي ده من لوحة التحكم."
+    }
+   }
+  ]
+ },
+ "faq": {
+  "title": {
+   "en": "Frequently asked questions",
+   "ar": "الأسئلة الشائعة"
+  },
+  "items": [
+   {
+    "q": {
+     "en": "What services do you offer?",
+     "ar": "إيه الخدمات اللي بتقدموها؟"
+    },
+    "a": {
+     "en": "Video editing, motion graphics, branding and design, social media management, performance marketing, web development, content creation and production.",
+     "ar": "مونتاج فيديو، موشن جرافيك، هوية بصرية وتصميم، إدارة سوشيال ميديا، إعلانات ممولة، تطوير مواقع، صناعة محتوى وإنتاج."
+    }
+   },
+   {
+    "q": {
+     "en": "How long does a project take?",
+     "ar": "المشروع بياخد وقت قد إيه؟"
+    },
+    "a": {
+     "en": "It depends on the scope. We share a clear schedule before we start and keep you updated at every milestone.",
+     "ar": "بيعتمد على حجم الشغل. بنشاركك جدول واضح قبل ما نبدأ وبنبلّغك في كل مرحلة."
+    }
+   },
+   {
+    "q": {
+     "en": "Do you work with clients outside my country?",
+     "ar": "بتشتغلوا مع عملاء من برا بلدنا؟"
+    },
+    "a": {
+     "en": "Yes. We work remotely with brands worldwide and deliver in Arabic, English and more.",
+     "ar": "أيوه. بنشتغل عن بُعد مع براندات في كل العالم وبنسلّم بالعربي والإنجليزي وغيرهم."
+    }
+   },
+   {
+    "q": {
+     "en": "How do I get started?",
+     "ar": "أبدأ إزاي؟"
+    },
+    "a": {
+     "en": "Send us a message through the form below or on WhatsApp and we will get back to you quickly.",
+     "ar": "ابعتلنا رسالة من الفورم تحت أو على واتساب وهنرد عليك بسرعة."
+    }
+   }
+  ]
+ },
+ "cta": {
+  "title": {
+   "en": "Ready to grow your brand?",
+   "ar": "جاهز تكبّر براندك؟"
+  },
+  "sub": {
+   "en": "Tell us about your project — we reply fast.",
+   "ar": "قولنا عن مشروعك — وبنرد بسرعة."
+  },
+  "button": {
+   "en": "Get in touch",
+   "ar": "تواصل معانا"
+  }
+ }
+}
