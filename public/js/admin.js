@@ -108,7 +108,8 @@ const VIEWS = {
     card('بانر الدعوة للتواصل', `${bi('cta.title', 'العنوان')}${bi('cta.sub', 'الوصف')}${bi('cta.button', 'الزرار')}`),
   settings: () => head('الحفظ والنشر', '') + card('', LIVE
       ? `<p>✓ إنت شغال محلياً: كل تعديل وصورة بتتحفظ مباشرة في فولدر المشروع (<code>public/content.json</code> و<code>public/uploads</code>).<br>عشان تنشر: ارفع فولدر المشروع كله على Vercel.</p>`
-      : `<p>الأدمن مش متصل بملفات الموقع. شغّل <code>node serve.js</code> وافتح الأدمن من <code>localhost:3000/admin</code> عشان التعديلات تتحفظ في الملفات.<br>أو اضغط <b>⬇ تصدير</b> وهينزل ZIP فيه <code>content.json</code> و<code>uploads</code> — حطهم جوه <code>public</code>.</p>`) +
+      : `<p>اضغط <b>🚀 نشر الموقع</b> (فوق في القائمة) وتعديلاتك بتظهر للزوار خلال دقيقة.</p>`) +
+    (LIVE ? '' : card('إعداد النشر (مرة واحدة)', (() => { const g = GH() || {}; return `<div class="f"><label>الريبو على GitHub</label><input id="ghr" dir="ltr" value="${esc(g.repo || 'saskkeahmed-afk/motakamel')}"></div><div class="f"><label>الفرع</label><input id="ghb" dir="ltr" value="${esc(g.branch || 'main')}"></div><div class="f"><label>مفتاح النشر (Token)</label><input id="ght" type="password" dir="ltr" placeholder="github_pat_…" value="${esc(g.token || '')}"></div><button class="btn" id="ghsave">حفظ الإعداد</button> ${g.token ? '<span style="color:#4ade80">✓ جاهز</span>' : ''}`; })())) +
     card('نسخة احتياطية', `<button class="btn" id="imp">📥 استيراد content.json</button> <button class="btn" id="bak">💾 تنزيل نسخة</button>`) +
     (LIVE ? '' : card('', '<button class="btn dn" id="rst">إعادة ضبط المسودة</button>'))
 };
@@ -203,6 +204,7 @@ function bind() {
     else if (t.hasAttribute('data-delcat')) { if (!confirm('تحذف التصنيف بكل أعماله؟')) return; D.works.categories = D.works.categories.filter(c => c.id !== curCat); curCat = null; changed(); render(); }
     else if (t.id === 'lnkAdd') { const items = $('#lnk').value.split('\n').map(parseLink).filter(Boolean); if (!items.length) return toast('الروابط مش مفهومة — الصق رابط Drive / YouTube / Vimeo'); D.works.categories.find(c => c.id === curCat).items.push(...items); changed(); toast(`اتضاف ${items.length} ✓`); render(); }
     else if (t.id === 'drop') $('#fi').click();
+    else if (t.id === 'ghsave') { localStorage.setItem('mk-gh', JSON.stringify({ repo: $('#ghr').value.trim(), branch: $('#ghb').value.trim() || 'main', token: $('#ght').value.trim() })); toast('✓ اتحفظ'); render(); }
     else if (t.id === 'imp') $('#impf').click();
     else if (t.id === 'bak') dl(new Blob([JSON.stringify(D, null, 2)], { type: 'application/json' }), 'content-backup.json');
     else if (t.id === 'rst') { if (!confirm('تمسح كل التعديلات المحفوظة على الجهاز ده؟')) return; await kvSet('content', null); for (const [n] of await fGetAll()) await fDel(n); location.reload(); }
@@ -237,6 +239,27 @@ async function makeZip(entries) { // [{name, data:Uint8Array}]
 }
 const dl = (blob, name) => { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 4000); };
 const pubBadge = () => { const b = $('#pub'); if (!b) return; let d = false; try { d = localStorage.getItem('mk-dirty') === '1'; } catch {} b.textContent = d ? '⚠ فيه تعديلات لسه ما اتنشرتش' : '✓ مفيش تعديلات معلّقة'; b.className = 'pub ' + (d ? 'dirty' : 'clean'); };
+const GH = () => { try { return JSON.parse(localStorage.getItem('mk-gh') || 'null'); } catch { return null; } };
+const b64 = async blob => { const u = new Uint8Array(await blob.arrayBuffer()); let o = ''; for (let i = 0; i < u.length; i += 0x8000) o += String.fromCharCode.apply(null, u.subarray(i, i + 0x8000)); return btoa(o); };
+async function publishGH() {
+  const g = GH(); if (!g || !g.token) { tab = 'settings'; render(); scrollTo(0, 0); return toast('الصق مفتاح النشر الأول (مرة واحدة)'); }
+  const btn = $('#exp'); btn.disabled = true;
+  const api = async (p, o = {}) => { const r = await fetch('https://api.github.com/repos/' + g.repo + p, { ...o, headers: { Authorization: 'Bearer ' + g.token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' } }); if (!r.ok) { let m = ''; try { m = (await r.json()).message; } catch {} throw new Error(r.status === 401 ? 'المفتاح غلط أو منتهي' : r.status === 404 ? 'الريبو أو المفتاح مش مظبوط' : r.status + ' ' + m); } return r.json(); };
+  try {
+    status('جاري النشر…'); await save();
+    const json = JSON.stringify(D, null, 2); let done = []; try { done = JSON.parse(localStorage.getItem('mk-pubd') || '[]'); } catch {}
+    const files = (await fGetAll()).filter(([n]) => json.includes('/' + n) && !done.includes(n));
+    const ref = await api('/git/ref/heads/' + g.branch), base = await api('/git/commits/' + ref.object.sha);
+    const tree = [{ path: 'public/content.json', mode: '100644', type: 'blob', content: json }]; let k = 0;
+    for (const [n, b] of files) { status(`رفع الملفات ${++k}/${files.length}…`); const bl = await api('/git/blobs', { method: 'POST', body: JSON.stringify({ content: await b64(b), encoding: 'base64' }) }); tree.push({ path: 'public/' + n, mode: '100644', type: 'blob', sha: bl.sha }); }
+    const nt = await api('/git/trees', { method: 'POST', body: JSON.stringify({ base_tree: base.tree.sha, tree }) });
+    const cm = await api('/git/commits', { method: 'POST', body: JSON.stringify({ message: 'تحديث من لوحة التحكم', tree: nt.sha, parents: [ref.object.sha] }) });
+    await api('/git/refs/heads/' + g.branch, { method: 'PATCH', body: JSON.stringify({ sha: cm.sha }) });
+    localStorage.setItem('mk-pubd', JSON.stringify([...done, ...files.map(f => f[0])])); localStorage.setItem('mk-dirty', '0'); pubBadge();
+    status('✓ اتنشر — الموقع هيتحدّث خلال دقيقة', 'ok'); toast('✓ اتنشر — الموقع هيتحدّث خلال دقيقة');
+  } catch (e) { status('فشل النشر ✕ ' + e.message, 'bad'); toast('فشل النشر: ' + e.message); }
+  btn.disabled = false;
+}
 async function exportSite() {
   status('جاري تجهيز الملف…'); const json = JSON.stringify(D, null, 2), files = await fGetAll(), used = files.filter(([n]) => json.includes('/' + n));
   const entries = [{ name: 'content.json', data: new TextEncoder().encode(json) }];
@@ -251,7 +274,7 @@ async function start() {
   D = d; if (!D) { document.body.textContent = 'تعذّر تحميل المحتوى'; return; }
   D.hero.slides = D.hero.slides || []; D.hero.slideMode = D.hero.slideMode || 'custom'; D.hero.interval = D.hero.interval || 4; D.band = D.band || {}; D.band.text = D.band.text || { en: '', ar: '' }; D.about = D.about || {}; for (const k of ['title', 'text', 'more']) D.about[k] = D.about[k] || { en: '', ar: '' }; D.offices = D.offices || [];
   for (const [n, b] of await fGetAll()) PENDING['/' + n] = URL.createObjectURL(b);
-  $('#app').hidden = false; status(LIVE ? '● متصل بملفات الموقع — كل تعديل بيتحفظ مباشرة' : 'جاهز', LIVE ? 'ok' : ''); if (LIVE) { $('#exp').style.display = 'none'; $('#pub').style.display = 'none'; } bind(); render(); $('#exp').onclick = exportSite; $('#prev').onclick = () => window.open(LIVE ? '/' : '/?preview=1', '_blank'); pubBadge();
+  $('#app').hidden = false; status(LIVE ? '● متصل بملفات الموقع — كل تعديل بيتحفظ مباشرة' : 'جاهز', LIVE ? 'ok' : ''); if (LIVE) { $('#exp').style.display = 'none'; $('#pub').style.display = 'none'; } bind(); render(); if (!LIVE) $('#exp').textContent = '🚀 نشر الموقع'; $('#exp').onclick = LIVE ? exportSite : publishGH; $('#prev').onclick = () => window.open(LIVE ? '/' : '/?preview=1', '_blank'); pubBadge();
 }
 
 /* ---------- كلمة سر الأدمن ---------- */
