@@ -109,7 +109,8 @@ const VIEWS = {
   settings: () => head('الحفظ والنشر', '') + card('', LIVE
       ? `<p>✓ إنت شغال محلياً: كل تعديل وصورة بتتحفظ مباشرة في فولدر المشروع (<code>public/content.json</code> و<code>public/uploads</code>).<br>عشان تنشر: ارفع فولدر المشروع كله على Vercel.</p>`
       : `<p>اضغط <b>🚀 نشر الموقع</b> (فوق في القائمة) وتعديلاتك بتظهر للزوار خلال دقيقة.</p>`) +
-    (LIVE ? '' : card('إعداد النشر (مرة واحدة)', (() => { const g = GH() || {}; return `<div class="f"><label>الريبو على GitHub</label><input id="ghr" dir="ltr" value="${esc(g.repo || 'saskkeahmed-afk/motakamel')}"></div><div class="f"><label>الفرع</label><input id="ghb" dir="ltr" value="${esc(g.branch || 'main')}"></div><div class="f"><label>مفتاح النشر (Token)</label><input id="ght" type="password" dir="ltr" placeholder="github_pat_…" value="${esc(g.token || '')}"></div><button class="btn" id="ghsave">حفظ الإعداد</button> ${g.token ? '<span style="color:#4ade80">✓ جاهز</span>' : ''}`; })())) +
+    (LIVE ? '' : card('إعداد النشر (مرة واحدة)', (() => { const g = GH() || {}; return `<div class="f"><label>الريبو على GitHub</label><input id="ghr" dir="ltr" value="${esc(g.repo || 'saskkeahmed-afk/motakamel')}"></div><div class="f"><label>الفرع</label><input id="ghb" dir="ltr" value="${esc(g.branch || 'main')}"></div><div class="f"><label>مفتاح النشر (Token)</label><input id="ght" type="password" dir="ltr" placeholder="github_pat_…" value="${esc(g.token || '')}"></div><button class="btn" id="ghsave">حفظ الإعداد</button> ${g.token ? '<span style="color:#4ade80">✓ جاهز</span>' : ''}`; })()) +
+      card('مفتاح واحد لكل الناس', `<p>اكتب المفتاح فوق، واختار كلمة سر دخول قوية، ودوس تنزيل. حط الملف في <code>public</code> وارفعه على جيت هب مرة واحدة. بعدها أي حد يكتب كلمة السر بيدخل والنشر شغال من غير ما يلصق حاجة.</p><div class="f"><label>كلمة سر الدخول (قوية)</label><input id="ghpw" type="text" dir="ltr" placeholder="٨ حروف على الأقل"></div><button class="btn" id="ghkey">⬇ تنزيل admin-key.json</button>`)) +
     card('نسخة احتياطية', `<button class="btn" id="imp">📥 استيراد ملف</button><input type="file" id="impf" accept=".json" hidden> <button class="btn" id="bak">💾 تنزيل نسخة</button>`) +
     (LIVE ? '' : card('', '<button class="btn dn" id="rst">إعادة ضبط المسودة</button>'))
 };
@@ -205,6 +206,7 @@ function bind() {
     else if (t.id === 'lnkAdd') { const items = $('#lnk').value.split('\n').map(parseLink).filter(Boolean); if (!items.length) return toast('الروابط مش مفهومة — الصق رابط Drive / YouTube / Vimeo'); D.works.categories.find(c => c.id === curCat).items.push(...items); changed(); toast(`اتضاف ${items.length} ✓`); render(); }
     else if (t.id === 'drop') $('#fi').click();
     else if (t.id === 'ghsave') { localStorage.setItem('mk-gh', JSON.stringify({ repo: $('#ghr').value.trim(), branch: $('#ghb').value.trim() || 'main', token: $('#ght').value.trim() })); toast('✓ اتحفظ'); render(); }
+    else if (t.id === 'ghkey') { const tk = $('#ght').value.trim(), pw = $('#ghpw').value; if (!tk) return toast('الصق المفتاح الأول'); if (pw.length < 8) return toast('كلمة السر لازم ٨ حروف على الأقل'); const f = await sealKey({ repo: $('#ghr').value.trim(), branch: $('#ghb').value.trim() || 'main', token: tk }, pw); dl(new Blob([JSON.stringify(f)], { type: 'application/json' }), 'admin-key.json'); toast('✓ حطه في فولدر public وارفعه'); }
     else if (t.id === 'imp') $('#impf').click();
     else if (t.id === 'bak') dl(new Blob([JSON.stringify(D, null, 2)], { type: 'application/json' }), 'content-backup.json');
     else if (t.id === 'rst') { if (!confirm('تمسح كل التعديلات المحفوظة على الجهاز ده؟')) return; await kvSet('content', null); for (const [n] of await fGetAll()) await fDel(n); location.reload(); }
@@ -278,6 +280,12 @@ async function start() {
 }
 
 /* ---------- كلمة سر الأدمن ---------- */
+const kdf = async (pw, salt) => crypto.subtle.deriveKey({ name: 'PBKDF2', salt, iterations: 250000, hash: 'SHA-256' }, await crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']), { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+const toB = u => btoa(String.fromCharCode(...u)), fromB = t => Uint8Array.from(atob(t), c => c.charCodeAt(0));
+const sealKey = async (obj, pw) => { const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12)), ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, await kdf(pw, salt), new TextEncoder().encode(JSON.stringify(obj)))); return { v: 1, salt: toB(salt), iv: toB(iv), ct: toB(ct) }; };
+const openKey = async (f, pw) => JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name: 'AES-GCM', iv: fromB(f.iv) }, await kdf(pw, fromB(f.salt)), fromB(f.ct))));
+// لو فيه admin-key.json: كلمة السر بتفك تشفير مفتاح النشر وبتحفظه تلقائي على الجهاز (null = مفيش ملف)
+const keyLogin = async pw => { let f; try { const r = await fetch('/admin-key.json', { cache: 'no-store' }); if (!r.ok) return null; f = await r.json(); if (!f.ct) return null; } catch { return null; } try { const c = await openKey(f, pw); localStorage.setItem('mk-gh', JSON.stringify(c)); return true; } catch { return false; } };
 const PW_HASH = '41f0dae57fff6926face689f438eaf398ef9bbff2719b8f8c348e9ec54b30f8e';
 const sha = async t => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)))].map(b => b.toString(16).padStart(2, '0')).join('');
 function gate() {
@@ -289,7 +297,8 @@ function gate() {
   document.body.append(g); const f = g.querySelector('form'), pw = g.querySelector('#pw'); pw.focus();
   f.onsubmit = async e => { e.preventDefault(); const pe = g.querySelector('#pe');
     if (!crypto.subtle) { pe.textContent = 'افتح الأدمن من https أو localhost'; return; }
-    if (await sha(pw.value) === PW_HASH) { try { sessionStorage.setItem('mk-auth', PW_HASH); } catch {} g.remove(); start(); }
+    const kl = await keyLogin(pw.value);
+    if (kl === true || (kl === null && await sha(pw.value) === PW_HASH)) { try { sessionStorage.setItem('mk-auth', PW_HASH); } catch {} g.remove(); start(); }
     else { pe.textContent = 'كلمة السر غلط'; pw.value = ''; f.animate([{ transform: 'translateX(-8px)' }, { transform: 'translateX(8px)' }, { transform: 'none' }], { duration: 250 }); } };
 }
 gate();
