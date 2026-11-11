@@ -246,20 +246,20 @@ const b64 = async blob => { const u = new Uint8Array(await blob.arrayBuffer()); 
 async function publishGH() {
   const g = GH(); if (!g || !g.token) { tab = 'settings'; render(); scrollTo(0, 0); return toast('الصق مفتاح النشر الأول (مرة واحدة)'); }
   const btn = $('#exp'); btn.disabled = true;
-  const api = async (p, o = {}) => { const r = await fetch('https://api.github.com/repos/' + g.repo + p, { ...o, headers: { Authorization: 'Bearer ' + g.token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' } }); if (!r.ok) { let m = ''; try { m = (await r.json()).message; } catch {} throw new Error(r.status === 401 ? 'المفتاح غلط أو منتهي' : r.status === 404 ? 'الريبو أو المفتاح مش مظبوط' : r.status + ' ' + m); } return r.json(); };
+  const api = async (p, o = {}) => { const r = await fetch('https://api.github.com/repos/' + g.repo + p, { ...o, headers: { Authorization: 'Bearer ' + g.token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' } }); if (!r.ok) { let m = ''; try { m = (await r.json()).message; } catch {} if (r.status === 401) { const e = new Error('المفتاح غلط أو منتهي'); e.bad = 1; throw e; } throw new Error(r.status === 404 ? 'الريبو أو المفتاح مش مظبوط' : r.status === 404 ? 'الريبو أو المفتاح مش مظبوط' : r.status + ' ' + m); } return r.json(); };
   try {
     status('جاري النشر…'); await save();
-    const json = JSON.stringify(D, null, 2); let done = []; try { done = JSON.parse(localStorage.getItem('mk-pubd') || '[]'); } catch {}
-    const files = (await fGetAll()).filter(([n]) => json.includes('/' + n) && !done.includes(n));
-    const ref = await api('/git/ref/heads/' + g.branch), base = await api('/git/commits/' + ref.object.sha);
+    const json = JSON.stringify(D, null, 2);     const ref = await api('/git/ref/heads/' + g.branch), base = await api('/git/commits/' + ref.object.sha);
+    let have = new Set(); try { have = new Set((await api('/git/trees/' + base.tree.sha + '?recursive=1')).tree.map(x => x.path)); } catch {}
+    const files = (await fGetAll()).filter(([n]) => json.includes('/' + n) && !have.has('public/' + n));
     const tree = [{ path: 'public/content.json', mode: '100644', type: 'blob', content: json }]; let k = 0;
-    for (const [n, b] of files) { status(`رفع الملفات ${++k}/${files.length}…`); const bl = await api('/git/blobs', { method: 'POST', body: JSON.stringify({ content: await b64(b), encoding: 'base64' }) }); tree.push({ path: 'public/' + n, mode: '100644', type: 'blob', sha: bl.sha }); }
+    for (let i = 0; i < files.length; i += 4) await Promise.all(files.slice(i, i + 4).map(async ([n, b]) => { const bl = await api('/git/blobs', { method: 'POST', body: JSON.stringify({ content: await b64(b), encoding: 'base64' }) }); tree.push({ path: 'public/' + n, mode: '100644', type: 'blob', sha: bl.sha }); status(`رفع الملفات ${++k}/${files.length}…`); }));
     const nt = await api('/git/trees', { method: 'POST', body: JSON.stringify({ base_tree: base.tree.sha, tree }) });
     const cm = await api('/git/commits', { method: 'POST', body: JSON.stringify({ message: 'تحديث من لوحة التحكم', tree: nt.sha, parents: [ref.object.sha] }) });
     await api('/git/refs/heads/' + g.branch, { method: 'PATCH', body: JSON.stringify({ sha: cm.sha }) });
-    localStorage.setItem('mk-pubd', JSON.stringify([...done, ...files.map(f => f[0])])); localStorage.setItem('mk-dirty', '0'); pubBadge();
+    localStorage.setItem('mk-dirty', '0'); pubBadge();
     status('✓ اتنشر — الموقع هيتحدّث خلال دقيقة', 'ok'); toast('✓ اتنشر — الموقع هيتحدّث خلال دقيقة');
-  } catch (e) { status('فشل النشر ✕ ' + e.message, 'bad'); toast('فشل النشر: ' + e.message); }
+  } catch (e) { if (e.bad) { try { localStorage.removeItem('mk-gh'); sessionStorage.removeItem('mk-auth'); } catch {} status('المفتاح مش صالح — هيرجّعك لصفحة الدخول…', 'bad'); toast('اكتب كلمة السر تاني'); setTimeout(() => location.reload(), 1600); } else { status('فشل النشر ✕ ' + e.message, 'bad'); toast('فشل النشر: ' + e.message); } }
   btn.disabled = false;
 }
 async function exportSite() {
